@@ -1,4 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
+const colors = require('tailwindcss/colors');
 
 module.exports = {
 	mode: 'jit',
@@ -6,7 +7,17 @@ module.exports = {
 	darkMode: false, // or 'media' or 'class'
 	theme: {
 		extend: {
-			sans: ['Inter var', ...defaultTheme.fontFamily.sans]
+			fontFamily: {
+				sans: ['Inter var', ...defaultTheme.fontFamily.sans]
+			},
+			cursor: {
+				'ew-resize': 'ew-resize'
+			},
+			colors: {
+				emerald: colors.emerald,
+				orange: colors.orange,
+				sky: colors.sky
+			}
 		}
 	},
 	variants: {
