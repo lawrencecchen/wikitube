@@ -10,12 +10,12 @@
 	import type { Load } from '@sveltejs/kit';
 	import type { Editor } from '@tiptap/core';
 	import { fade, fly } from 'svelte/transition';
-	import dayjs from 'dayjs';
-	import relativeTime from 'dayjs/plugin/relativeTime';
-	import utc from 'dayjs/plugin/utc';
+	// import dayjs from 'dayjs/esm';
+	// import relativeTime from 'dayjs/esm/plugin/relativeTime/index.js';
+	// import utc from 'dayjs/esm/plugin/utc/index.js';
 
-	dayjs.extend(relativeTime);
-	dayjs.extend(utc);
+	// dayjs.extend(relativeTime);
+	// dayjs.extend(utc);
 
 	export const load: Load = async ({ page, fetch, session, context }) => {
 		const { data: question, error: questionError } = await supabase
@@ -45,6 +45,8 @@
 </script>
 
 <script lang="ts">
+	import { getRelativeTime } from '$lib/utils/relativeTime';
+
 	export let question: definitions['posts_with_votes'];
 	export let answers: definitions['posts_with_votes'][];
 
@@ -101,7 +103,8 @@
 				<div class="flex space-x-1.5 text-xs">
 					<dt class="text-gray-600">Asked</dt>
 					<dd>
-						{dayjs(question.inserted_at).fromNow()}
+						{getRelativeTime(new Date(question.inserted_at))}
+						<!-- {dayjs(question.inserted_at).fromNow()} -->
 					</dd>
 				</div>
 			</dl>
@@ -142,7 +145,7 @@
 											<div class="flex space-x-1.5 text-xs">
 												<dt class="text-gray-600">Answered</dt>
 												<dd>
-													{dayjs(answer.inserted_at).fromNow()}
+													{getRelativeTime(new Date(answer.inserted_at))}
 												</dd>
 											</div>
 										</dl>

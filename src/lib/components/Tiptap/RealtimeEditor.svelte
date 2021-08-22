@@ -8,13 +8,13 @@
 	import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
 	import { auth } from '$lib/stores/auth';
 
-	import { WebsocketProvider } from 'y-websocket';
+	// import { WebsocketProvider } from 'y-websocket';
 	// import { WebsocketProvider } from '$lib/yjs/y-websocket';
 	import { WEBSOCKET_URL } from '$lib/constants';
 	import { users as editorUsers } from './users.store';
 	// Hacky stuff to make y-websocket work with Vite.
-	// import * as pkg from 'y-websocket';
-	// const { WebsocketProvider } = pkg;
+	import * as pkg from 'y-websocket';
+	const { WebsocketProvider } = pkg;
 
 	export let documentId: string;
 	// export let wordCount: number = null;
