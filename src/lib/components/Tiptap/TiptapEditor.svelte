@@ -3,6 +3,7 @@
 	import { Editor } from '@tiptap/core';
 	import Placeholder from '@tiptap/extension-placeholder';
 	import StarterKit from '@tiptap/starter-kit';
+	import CharacterCount from '@tiptap/extension-character-count';
 
 	export let id = null;
 	export let placeholder = '';
@@ -28,7 +29,8 @@
 				StarterKit,
 				Placeholder.configure({
 					placeholder
-				})
+				}),
+				CharacterCount
 			],
 			editorProps: {
 				attributes: {

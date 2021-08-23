@@ -12,7 +12,6 @@ let uid = 0;
 let timeouts = [];
 
 export function freezeToasts() {
-	console.log('🥶');
 	for (const timeout of timeouts) {
 		clearTimeout(timeout);
 	}

@@ -7,17 +7,12 @@
 	import { supabase } from '$lib/supabase';
 	import type { definitions } from '$lib/types/supabase';
 	import { clickoutside } from '$lib/utils/clickoutside';
+	import { getRelativeTime } from '$lib/utils/relativeTime';
 	import type { Load } from '@sveltejs/kit';
 	import type { Editor } from '@tiptap/core';
-	import { fade, fly } from 'svelte/transition';
-	// import dayjs from 'dayjs/esm';
-	// import relativeTime from 'dayjs/esm/plugin/relativeTime/index.js';
-	// import utc from 'dayjs/esm/plugin/utc/index.js';
+	import { fade } from 'svelte/transition';
 
-	// dayjs.extend(relativeTime);
-	// dayjs.extend(utc);
-
-	export const load: Load = async ({ page, fetch, session, context }) => {
+	export const load: Load = async ({ page }) => {
 		const { data: question, error: questionError } = await supabase
 			.from('posts_with_votes')
 			.select('*')
@@ -45,8 +40,6 @@
 </script>
 
 <script lang="ts">
-	import { getRelativeTime } from '$lib/utils/relativeTime';
-
 	export let question: definitions['posts_with_votes'];
 	export let answers: definitions['posts_with_votes'][];
 
@@ -90,11 +83,10 @@
 	transition:fade={{ duration: 150 }}
 >
 	<main
-		class="bg-white rounded shadow max-w-4xl min-h-0 w-full my-2 mx-auto border cursor-auto relative z-20"
+		class="bg-white rounded shadow-2xl max-w-4xl min-h-0 w-full my-2 mx-auto border cursor-auto relative z-20"
 		use:clickoutside
 		on:clickoutside={handleClickoutside}
 		on:click|preventDefault
-		transition:fly={{ duration: 150, y: 5 }}
 	>
 		<div class="p-4">
 			<h1 class="text-xl font-semibold text-gray-700">{question.title}</h1>
@@ -122,7 +114,6 @@
 
 			<div class="">
 				{#if answers.length < 1}
-					<hr class="mt-8" />
 					<p class="text-gray-700 font-medium text-lg mt-4">
 						Know someone who can answer? Start a discussion on Discord or share a link to this
 						question via email, Twitter, or Facebook.
@@ -163,7 +154,7 @@
 				<h2 class="text-gray-700 font-medium text-lg">Your Answer</h2>
 				<TiptapEditor
 					bind:editor
-					class="border border-gray-300 prose prose-sm max-w-full rounded min-h-[10rem] mt-2 px-3 py-2 focus:ring focus:ring-blue-200 focus:border focus:border-blue-500/90 transition disabled:opacity-75"
+					class="border border-gray-300 prose-notion prose-sm max-w-full rounded min-h-[10rem] mt-2 px-3 py-2 focus:ring focus:ring-blue-200 focus:border focus:border-blue-500/90 transition disabled:opacity-75"
 					bind:html={html_answer}
 					editable={loading}
 				/>

@@ -8,22 +8,24 @@
 	import type { definitions } from '$lib/types/supabase';
 	import type { Load } from '@sveltejs/kit';
 
-	export const load: Load = async ({ page, fetch, session, context }) => {
-		const { data: questions, error: questionsError } = await supabase
-			.from('posts_with_votes')
-			.select('*')
-			.match({ video_id: page.params.videoId, post_type: 'question' })
-			.order('votes', { ascending: false });
+	export const load: Load = async ({ page, fetch }) => {
+		try {
+			// const questions = await fetch(`${page.params.videoId}/questions.json`).then((r) => r.json());
+			const { data: questions, error: questionsError } = await supabase
+				.from('posts_with_votes')
+				.select('*')
+				.match({ video_id: page.params.videoId, post_type: 'question' })
+				.order('votes', { ascending: false });
 
-		if (questions) {
 			return {
 				props: {
 					questions
 				}
 			};
+		} catch (e) {
+			console.log(e);
+			return { status: 500 };
 		}
-
-		console.log(questionsError);
 	};
 </script>
 
@@ -47,7 +49,10 @@
 	</div>
 
 	<div class="flex-1 overflow-auto max-h-full">
-		<RealtimeEditor class="prose max-w-prose mx-auto p-4" documentId={$page.params.videoId} />
+		<RealtimeEditor
+			class="prose prose-notion max-w-prose mx-auto p-4 min-h-screen whitespace-pre-wrap"
+			documentId={$page.params.videoId}
+		/>
 	</div>
 
 	<slot />

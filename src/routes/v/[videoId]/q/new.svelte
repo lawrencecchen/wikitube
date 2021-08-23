@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto, invalidate } from '$app/navigation';
+	import { goto, invalidate, prefetch } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Spinner from '$lib/components/Spinner/Spinner.svelte';
 	import TiptapEditor from '$lib/components/Tiptap/TiptapEditor.svelte';
@@ -7,8 +7,7 @@
 	import type { definitions } from '$lib/types/supabase';
 	import { clickoutside } from '$lib/utils/clickoutside';
 	import type { Editor } from '@tiptap/core';
-	import { quintInOut } from 'svelte/easing';
-	import { fade, fly, scale } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 
 	function handleClickoutside() {
 		goto(`/v/${$page.params.videoId}`);
@@ -26,15 +25,17 @@
 			.insert({
 				parent_id: +$page.params.questionId,
 				title,
-				unsafe_body: unsafe_body,
+				unsafe_body: editor.getCharacterCount() > 0 ? unsafe_body : title,
 				video_id: $page.params.videoId,
 				post_type: 'question'
 			})
 			.single();
 
 		if (!error) {
-			await invalidate(`/v/${$page.params.videoId}`);
-			goto(`/v/${$page.params.videoId}/q/${data.post_id}`);
+			const targetURL = `/v/${$page.params.videoId}/q/${data.post_id}`;
+			// console.log(targetURL);
+			await invalidate(`/v/${$page.params.videoId}/questions.json`);
+			await goto(targetURL, { replaceState: true });
 		} else {
 			console.log(error);
 		}
@@ -46,12 +47,14 @@
 	transition:fade={{ duration: 150 }}
 >
 	<main
-		class="p-4 bg-white rounded shadow max-w-4xl min-h-0 w-full my-2 mx-auto border cursor-auto relative z-20"
+		class="p-4 bg-white rounded shadow-2xl max-w-4xl min-h-0 w-full my-2 mx-auto border cursor-auto relative z-20"
 		use:clickoutside
 		on:clickoutside={handleClickoutside}
 		on:click|preventDefault
-		transition:scale={{ duration: 150, start: 0.96 }}
 	>
+		<button on:click={() => invalidate(`/v/lbH_8Nj51HU`).then((r) => console.log(r))}
+			>invalidate</button
+		>
 		<p class="text-xs text-gray-500 mt-1">
 			Before you post, search the site to make sure your question hasn’t been answered.
 		</p>
@@ -71,10 +74,14 @@
 				bind:value={title}
 			/>
 
-			<label for="question_body" class="block font-semibold mt-2">Body</label>
+			<label for="question_body" class="block mt-3">
+				<span class="block font-semibold">Body</span>
+				<span class="block text-xs text-gray-500"> Leave blank if identical to title</span>
+			</label>
+
 			<TiptapEditor
 				id="question_body"
-				class="border border-gray-300 prose prose-sm max-w-full rounded min-h-[10rem] mt-2 px-3 py-2 focus:ring focus:ring-blue-200 focus:border focus:border-blue-500/90 transition disabled:opacity-75"
+				class="border border-gray-300 prose prose-notion prose-sm max-w-full rounded min-h-[10rem] mt-2 px-3 py-2 focus:ring focus:ring-blue-200 focus:border focus:border-blue-500/90 transition disabled:opacity-75"
 				bind:html={unsafe_body}
 				bind:editor
 				editable={loading}
@@ -84,7 +91,7 @@
 				on:click={submit}
 				disabled={loading}
 			>
-				<div class={loading ? 'invisible' : ''}>Post Your Answer</div>
+				<div class={loading ? 'invisible' : ''}>Ask Question</div>
 				{#if loading}
 					<Spinner class="absolute inset-0 mx-auto my-auto w-5 h-5 text-gray-500" />
 				{/if}

@@ -24,9 +24,12 @@
 	<div class="mt-2">
 		{#if questions.length === 0}
 			<div class="text-sm my-6 text-gray-600">
-				There aren't any questions yet. <button class="text-blue-500 hover:underline">
+				There aren't any questions yet. <a
+					href="/v/{$page.params.videoId}/q/new"
+					class="text-blue-500 hover:underline"
+				>
 					Ask one.
-				</button>
+				</a>
 			</div>
 		{:else}
 			<ul class="space-y-2">
