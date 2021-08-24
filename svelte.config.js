@@ -13,7 +13,7 @@ const config = {
 		adapter: vercel(),
 		vite: {
 			optimizeDeps: {
-				exclude: ['dayjs']
+				exclude: ['dayjs', 'y-websocket']
 			}
 		}
 	}

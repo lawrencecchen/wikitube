@@ -7,22 +7,29 @@
 	import * as Y from 'yjs';
 	import CollaborationCursor from '@tiptap/extension-collaboration-cursor';
 	import { auth } from '$lib/stores/auth';
+	import BubbleMenu from '@tiptap/extension-bubble-menu';
+	import CustomBubbleMenu from './CustomBubbleMenu.svelte';
+	import Underline from '@tiptap/extension-underline';
 
 	// import { WebsocketProvider } from 'y-websocket';
 	// import { WebsocketProvider } from '$lib/yjs/y-websocket';
 	import { WEBSOCKET_URL } from '$lib/constants';
 	import { users as editorUsers } from './users.store';
+
 	// Hacky stuff to make y-websocket work with Vite.
 	import * as pkg from 'y-websocket';
+	import { CustomLink } from './CustomLink';
 	const { WebsocketProvider } = pkg;
 
 	export let documentId: string;
-	// export let wordCount: number = null;
+	export let wrapperClass = '';
 
 	const colors = ['#f783ac', '#818CF8', '#A78BFA', '#F472B6'];
 	let element: HTMLDivElement;
-	let editor;
+	let editor: Editor;
 	let provider;
+	// let provider: WebsocketProvider;
+	let bubbleMenuRef;
 
 	onMount(async () => {
 		const ydoc = new Y.Doc();
@@ -32,8 +39,20 @@
 			element: element,
 			extensions: [
 				StarterKit.configure({
-					history: false
+					history: false,
+					heading: {
+						levels: [1, 2, 3]
+					}
 				}),
+				BubbleMenu.configure({
+					element: bubbleMenuRef,
+					tippyOptions: {
+						animation: 'fade',
+						delay: 100
+					}
+				}),
+				CustomLink,
+				Underline,
 				Collaboration.configure({
 					document: ydoc,
 					field: 'content'
@@ -104,7 +123,9 @@
 	</button>
 {/if} -->
 
-<div bind:this={element} />
+<div class={wrapperClass} bind:this={element} />
+
+<CustomBubbleMenu bind:bubbleMenuRef {editor} />
 
 <style>
 	:global(.ProseMirror p.is-editor-empty:first-child::before) {

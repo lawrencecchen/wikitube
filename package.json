@@ -20,12 +20,16 @@
 		"@tailwindcss/line-clamp": "^0.2.1",
 		"@tailwindcss/typography": "^0.4.1",
 		"@tiptap/core": "^2.0.0-beta.100",
+		"@tiptap/extension-bubble-menu": "^2.0.0-beta.30",
 		"@tiptap/extension-character-count": "^2.0.0-beta.13",
 		"@tiptap/extension-collaboration": "^2.0.0-beta.20",
 		"@tiptap/extension-collaboration-cursor": "^2.0.0-beta.21",
+		"@tiptap/extension-link": "^2.0.0-beta.19",
 		"@tiptap/extension-placeholder": "^2.0.0-beta.28",
+		"@tiptap/extension-underline": "^2.0.0-beta.16",
 		"@tiptap/starter-kit": "^2.0.0-beta.98",
 		"@types/cookie": "^0.4.0",
+		"@types/youtube-player": "^5.5.4",
 		"@typescript-eslint/eslint-plugin": "^4.19.0",
 		"@typescript-eslint/parser": "^4.19.0",
 		"autoprefixer": "^10.3.2",
@@ -45,8 +49,9 @@
 		"tslib": "^2.0.0",
 		"typescript": "^4.0.0",
 		"y-protocols": "^1.0.5",
-		"y-websocket": "lawrencecchen/y-websocket",
-		"yjs": "^13.5.12"
+		"y-websocket": "^1.3.16",
+		"yjs": "^13.5.12",
+		"youtube-player": "^5.5.2"
 	},
 	"type": "module",
 	"dependencies": {

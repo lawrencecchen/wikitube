@@ -26,7 +26,11 @@
 		editor = new Editor({
 			element: wrapperRef,
 			extensions: [
-				StarterKit,
+				StarterKit.configure({
+					heading: {
+						levels: [1, 2, 3]
+					}
+				}),
 				Placeholder.configure({
 					placeholder
 				}),

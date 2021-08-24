@@ -132,9 +132,16 @@
 										<div class="prose prose-sm max-w-full overflow-hidden">
 											{@html answer.unsafe_body}
 										</div>
-										<dl class="mt-4">
+										<dl class="mt-4 flex">
 											<div class="flex space-x-1.5 text-xs">
 												<dt class="text-gray-600">Answered</dt>
+												<dd>
+													{getRelativeTime(new Date(answer.inserted_at))}
+												</dd>
+											</div>
+
+											<div class="flex space-x-1.5 text-xs">
+												<dt class="text-gray-600">Author</dt>
 												<dd>
 													{getRelativeTime(new Date(answer.inserted_at))}
 												</dd>

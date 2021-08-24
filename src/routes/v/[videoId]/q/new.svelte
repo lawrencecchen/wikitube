@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	import Spinner from '$lib/components/Spinner/Spinner.svelte';
 	import TiptapEditor from '$lib/components/Tiptap/TiptapEditor.svelte';
+	import { auth } from '$lib/stores/auth';
 	import { supabase } from '$lib/supabase';
 	import type { definitions } from '$lib/types/supabase';
 	import { clickoutside } from '$lib/utils/clickoutside';
@@ -19,6 +20,9 @@
 	let editor: Editor;
 
 	async function submit() {
+		if (!$auth) {
+			return alert('must be signed in first');
+		}
 		loading = true;
 		const { data, error } = await supabase
 			.from<definitions['posts']>('posts')
@@ -27,7 +31,8 @@
 				title,
 				unsafe_body: editor.getCharacterCount() > 0 ? unsafe_body : title,
 				video_id: $page.params.videoId,
-				post_type: 'question'
+				post_type: 'question',
+				author_id: $auth.user.id
 			})
 			.single();
 
@@ -52,9 +57,6 @@
 		on:clickoutside={handleClickoutside}
 		on:click|preventDefault
 	>
-		<button on:click={() => invalidate(`/v/lbH_8Nj51HU`).then((r) => console.log(r))}
-			>invalidate</button
-		>
 		<p class="text-xs text-gray-500 mt-1">
 			Before you post, search the site to make sure your question hasn’t been answered.
 		</p>

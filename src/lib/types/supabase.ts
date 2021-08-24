@@ -125,6 +125,7 @@ export interface paths {
           inserted_at?: parameters["rowFilter.posts.inserted_at"];
           post_type?: parameters["rowFilter.posts.post_type"];
           video_id?: parameters["rowFilter.posts.video_id"];
+          author_id?: parameters["rowFilter.posts.author_id"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -182,6 +183,7 @@ export interface paths {
           inserted_at?: parameters["rowFilter.posts.inserted_at"];
           post_type?: parameters["rowFilter.posts.post_type"];
           video_id?: parameters["rowFilter.posts.video_id"];
+          author_id?: parameters["rowFilter.posts.author_id"];
         };
         header: {
           /** Preference */
@@ -203,6 +205,7 @@ export interface paths {
           inserted_at?: parameters["rowFilter.posts.inserted_at"];
           post_type?: parameters["rowFilter.posts.post_type"];
           video_id?: parameters["rowFilter.posts.video_id"];
+          author_id?: parameters["rowFilter.posts.author_id"];
         };
         body: {
           /** posts */
@@ -612,6 +615,11 @@ export interface definitions {
     inserted_at: string;
     post_type: "question" | "answer";
     video_id: string;
+    /**
+     * Note:
+     * This is a Foreign Key to `profiles.id`.<fk table='profiles' column='id'/>
+     */
+    author_id: string;
   };
   posts_with_votes: {
     /**
@@ -666,9 +674,10 @@ export interface definitions {
     user_id: string;
     /**
      * Note:
+     * This is a Primary Key.<pk/>
      * This is a Foreign Key to `posts.post_id`.<fk table='posts' column='post_id'/>
      */
-    post_id?: number;
+    post_id: number;
     value?: number;
   };
 }
@@ -711,6 +720,7 @@ export interface parameters {
   "rowFilter.posts.inserted_at": string;
   "rowFilter.posts.post_type": string;
   "rowFilter.posts.video_id": string;
+  "rowFilter.posts.author_id": string;
   /** posts_with_votes */
   "body.posts_with_votes": definitions["posts_with_votes"];
   "rowFilter.posts_with_votes.post_id": string;

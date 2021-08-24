@@ -16,7 +16,8 @@ module.exports = {
 			colors: {
 				emerald: colors.emerald,
 				orange: colors.orange,
-				sky: colors.sky
+				sky: colors.sky,
+				teal: colors.teal
 			},
 			typography: (theme) => ({
 				notion: {
@@ -24,19 +25,22 @@ module.exports = {
 						h1: {
 							fontWeight: 600,
 							fontSize: '1.875em',
-							lineHeight: 1.3,
-							marginTop: '2em'
+							lineHeight: 1.75,
+							marginTop: '1rem',
+							marginBottom: '4px'
 						},
 						h2: {
 							fontWeight: 600,
 							fontSize: '1.5em',
-							lineHeight: 1.3,
-							marginTop: '1.4em'
+							lineHeight: 1.75,
+							marginTop: '0.8rem',
+							marginBottom: '1px'
 						},
 						h3: {
 							fontWeight: 600,
 							fontSize: '1.25em',
-							lineHeight: 1.3
+							lineHeight: 1.75,
+							marginBottom: '1px'
 						},
 						'ol > li > *:first-child': {
 							marginTop: 0,
@@ -45,6 +49,10 @@ module.exports = {
 						'ul > li > *:first-child': {
 							marginTop: 0,
 							marginBottom: 0
+						},
+						p: {
+							marginTop: '1px',
+							marginBottom: '0px'
 						}
 					}
 				},
